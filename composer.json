@@ -1,0 +1,26 @@
+{
+    "name": "omnilight/yz2",
+    "description": "Yz2 extension for Yii2 framework adds ability to build Yii2 application very fast and confortable",
+    "keywords": ["yii", "framework", "yz", "administation panel"],
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Pavel Agalecky",
+            "email": "pavel.agalecky@gmail.com"
+        }
+    ],
+    "type": "project",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/omnilight/yz2"
+        },
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "yiisoft/yii2": "dev-master",
+    },
+    "autoload": {
+        "psr-0": { "yz\\": "" }
+    },
+}
