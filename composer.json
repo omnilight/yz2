@@ -9,7 +9,7 @@
             "email": "pavel.agalecky@gmail.com"
         }
     ],
-    "type": "project",
+    "type": "yii2-extension",
     "repositories": [
         {
             "type": "vcs",
