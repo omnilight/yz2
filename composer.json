@@ -14,7 +14,7 @@
         {
             "type": "vcs",
             "url": "https://github.com/omnilight/yz2"
-        },
+        }
     ],
     "require": {
         "php": ">=5.4.0",
