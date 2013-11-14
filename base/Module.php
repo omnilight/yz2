@@ -15,6 +15,7 @@ use yz\admin\components\BackendController;
  * @property-read string $author 
  * @property-read string $name 
  * @property-read array $routes
+ * @property-read array $adminMenu
  * @package yz\base
  */
 class Module extends YiiModule
@@ -72,6 +73,34 @@ class Module extends YiiModule
     }
 
     /**
+     * Returns menu items for administration panel in the following form:
+     * ~~~
+     * [
+     *     'label' => 'Group Title',
+     *     'iconv' => 'icon',
+     *     'items' => [
+     *         [
+     *             'route' => 'absolute/route', // Route (or URL if string)
+     *             'authItem' => 'someItem', // Will be used to determine whether user has access to the menu
+     *                                       // item. Otherwise information from the route will be used
+     *             'label' => 'My title',
+     *             'icon' => 'icon',
+     *         ],
+     *         [
+     *              'class' => '\yz\module\AdminMenuItem', // Points to class that will return above array
+     *              'parameter1' => '...'
+     *         ]
+     *     ],
+     * ]
+     * ~~~
+     * @return array
+     */
+    public function getAdminMenu()
+    {
+        return [];
+    }
+
+    /**
      * Returns the list of the backend operations that are allowed to be permitted to the user.
      * By default list is auto-discovered as all actions of controllers that are children of BackendController.
      * List has the following form:
@@ -82,7 +111,7 @@ class Module extends YiiModule
      * ~~~
      * @returns array
      */
-    public function getBackendAuthItems()
+    public function getAuthItems()
     {
         $list = [];
 
