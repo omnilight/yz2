@@ -2,6 +2,7 @@
 
 namespace yz\db;
 
+use yii\base\Exception;
 use yii\helpers\Inflector;
 use yii\helpers\StringHelper;
 
@@ -24,5 +25,56 @@ class ActiveRecord extends \yii\db\ActiveRecord
         return '{{%' . Inflector::tableize(StringHelper::basename(get_called_class())) . '}}';
     }
 
+    public static function mapAttributes()
+    {
+        return [static::primaryKey(), function($model, $default = null) {
+            if(is_array($model)) {
+                return $model[''];
+            } else {
+                return (string)$model;
+            }
+        }];
+    }
 
+    /**
+     * @return \yz\db\ActiveQuery
+     */
+    public static function createQuery()
+    {
+        return new \yz\db\ActiveQuery(['modelClass' => get_called_class()]);
+    }
+
+
+    /**
+     * Returns attributes values, ex.:
+     * ~~~
+     *   [
+     *      'genre' => [
+     *          'male' => \Yii::t('app','Male'),
+     *          'female' => \Yii::t('app', 'Female'),
+     *   ]
+     * ~~~
+     * @return array
+     */
+    public function attributeValues()
+    {
+        return [];
+    }
+
+    /**
+     * Returns values for specified attribute, or throws an exception if passed attribute
+     * is not found in {@see attributeValues()}
+     * @param string $attribute
+     * @return array
+     * @throws \yii\base\Exception
+     */
+    public function getAttributeValues($attribute)
+    {
+        $values = $this->attributeValues();
+        if(isset($values[$attribute])) {
+            return $values[$attribute];
+        } else {
+            throw new Exception('Trying to get values for unknown attribute: '.$attribute);
+        }
+    }
 } 
