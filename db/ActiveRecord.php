@@ -25,14 +25,17 @@ class ActiveRecord extends \yii\db\ActiveRecord
         return '{{%' . Inflector::tableize(StringHelper::basename(get_called_class())) . '}}';
     }
 
+    /**
+     * Returns array of attributes that should be used as key, value and optional group
+     * in {@see \yii\helpers\Html::map()} function. By default key is primary key, value
+     * - class converted to string, group - not used.
+     * @return array [key, value, group optional]
+     */
     public static function mapAttributes()
     {
         return [static::primaryKey(), function($model, $default = null) {
-            if(is_array($model)) {
-                return $model[''];
-            } else {
-                return (string)$model;
-            }
+            /** @var ActiveRecord $model */
+            return (string)$model;
         }];
     }
 
