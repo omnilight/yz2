@@ -2,10 +2,8 @@
 
 namespace yz\base;
 
-use yii\base\Module as YiiModule;
-use yii\helpers\ArrayHelper;
+use yii\base\InvalidConfigException;
 use yii\helpers\FileHelper;
-use yii\helpers\StringHelper;
 use yz\admin\components\AuthManager;
 use yz\admin\components\BackendController;
 
@@ -18,7 +16,7 @@ use yz\admin\components\BackendController;
  * @property-read array $adminMenu
  * @package yz\base
  */
-class Module extends YiiModule
+class Module extends \yii\base\Module
 {
     /**
      * Position in the menu of administration panel
@@ -162,4 +160,37 @@ class Module extends YiiModule
 
         return $list;
     }
+
+    public function __construct($id, $parent = null, $config = [])
+    {
+        if(isset(\Yii::$app->params['application-type'])) {
+            $this->controllerPath = $this->getBasePath() . DIRECTORY_SEPARATOR . 'controllers'
+                . DIRECTORY_SEPARATOR . \Yii::$app->params['application-type'];
+        }
+
+        parent::__construct($id, $parent, $config);
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        if ($this->controllerNamespace === null) {
+            if(!isset(\Yii::$app->params['application-type'])) {
+                throw new InvalidConfigException('You must define application param "application-type" '.
+                    'to use this module');
+            }
+            $class = get_class($this);
+            if (($pos = strrpos($class, '\\')) !== false) {
+                $this->controllerNamespace = substr($class, 0, $pos) . '\\controllers\\'
+                    .\Yii::$app->params['application-type'];
+            }
+        }
+
+        parent::init();
+    }
+
+
 }
