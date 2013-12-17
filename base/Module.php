@@ -39,7 +39,7 @@ class Module extends \yii\base\Module
      */
     public function getAuthor()
     {
-        return \Yii::t('yz/module','Yz Team');
+        return \Yii::t('yz','Yz Team');
     }
 
     /**
@@ -48,7 +48,7 @@ class Module extends \yii\base\Module
      */
     public function getName()
     {
-        return \Yii::t('yz/module','Yz Module');
+        return \Yii::t('yz','Yz Module');
     }
 
     /**
@@ -114,7 +114,7 @@ class Module extends \yii\base\Module
         $list = [];
 
         $moduleAuthItemName = $this->className();
-        $moduleDescription = \Yii::t('admin','Access to the "{module}" module',[
+        $moduleDescription = \Yii::t('yz','Access to the module {module}',[
             '{module}' => $this->getName(),
         ]);
 
@@ -128,7 +128,7 @@ class Module extends \yii\base\Module
             $controllerClassName = substr($controllerClassName, 0, -4); // Removing .php
             if(is_subclass_of($controllerClassName, BackendController::className())) {
                 $controllerAuthItemName = $controllerClassName;
-                $controllerDescription = \Yii::t('admin','Access to the "{controller} section of "{module}',[
+                $controllerDescription = \Yii::t('yz','Access to the section {module} / {controller}',[
                     '{controller}' => $controllerClassName,
                     '{module}' => $this->getName(),
                 ]);
@@ -143,7 +143,7 @@ class Module extends \yii\base\Module
                     if(preg_match('/^action(.+)$/',$method->getName(),$m)) {
                         $action = $m[1];
                         $actionAuthItemName = AuthManager::getOperationName($controllerClassName, $action);
-                        $actionDescription = \Yii::t('admin', 'Access to the "{action}" action of "{section}" section in module "{module}"',[
+                        $actionDescription = \Yii::t('yz', 'Access to the action {module} / {action} / {controller}',[
                             '{action}' => $action,
                             '{controller}' => $controllerClassName,
                             '{module}' => $this->getName(),
