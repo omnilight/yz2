@@ -2,9 +2,7 @@
 
 namespace yz\components;
 
-use yii\caching\Cache;
 use Yii;
-use yz\base\Module as YzModule;
 
 /**
  * Class UrlManager
@@ -42,7 +40,7 @@ class UrlManager extends \yii\web\UrlManager
 
             foreach($modules as $id => $moduleConfig) {
                 $module = \Yii::$app->getModule($id);
-                if($module instanceof YzModule) {
+                if($module instanceof \yz\Module) {
                     $moduleRoutes = $module->getRoutes();
                     if(isset($moduleRoutes['prepend']))
                         $routes['prepend'] = array_merge($routes['prepend'], $moduleRoutes['prepend']);
