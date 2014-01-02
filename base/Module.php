@@ -51,7 +51,16 @@ class Module extends \yii\base\Module
         return \Yii::t('yz','Yz Module');
     }
 
-    /**
+	/**
+	 * Description of the module
+	 * @return string
+	 */
+	public function getDescription()
+	{
+		return \Yii::t('yz','Yz Module Description');
+	}
+
+	/**
      * Returns the list of routes for current module. THis list should be in the following form
      * ~~~
      * [
