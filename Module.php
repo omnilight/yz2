@@ -1,6 +1,6 @@
 <?php
 
-namespace yz\base;
+namespace yz;
 
 use yii\base\InvalidConfigException;
 use yii\helpers\FileHelper;
@@ -42,7 +42,16 @@ class Module extends \yii\base\Module
 	 */
 	public function getVersion()
 	{
-		return '0.0.1';
+		return '0.1';
+	}
+
+	/**
+	 * Name of the module
+	 * @return string
+	 */
+	public function getName()
+	{
+		return \Yii::t('yz', 'Yz Module');
 	}
 
 	/**
@@ -61,6 +70,14 @@ class Module extends \yii\base\Module
 	public function getDescription()
 	{
 		return \Yii::t('yz', 'Yz Module Description');
+	}
+
+	/**
+	 * @return null|\yz\icons\Icon
+	 */
+	public function getIcon()
+	{
+		return null;
 	}
 
 	/**
@@ -171,15 +188,6 @@ class Module extends \yii\base\Module
 		$list = array_merge($moduleAuthItem, $list);
 
 		return $list;
-	}
-
-	/**
-	 * Name of the module
-	 * @return string
-	 */
-	public function getName()
-	{
-		return \Yii::t('yz', 'Yz Module');
 	}
 
 	/**
