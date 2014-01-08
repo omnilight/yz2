@@ -14,7 +14,7 @@ class Extension extends \yii\base\Extension
 
 		\Yii::$app->i18n->translations['yz'] = [
 			'class' => 'yii\i18n\PhpMessageSource',
-			'basePath' => '@admin/messages',
+			'basePath' => '@yz/messages',
 			'sourceLanguage' => 'en-US',
 		];
 	}

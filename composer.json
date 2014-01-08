@@ -19,6 +19,6 @@
     },
     "target-dir": "yz",
     "extra": {
-        "bootstrap": "yz\\admin\\Extension"
+        "bootstrap": "yz\\Extension"
     }
 }
