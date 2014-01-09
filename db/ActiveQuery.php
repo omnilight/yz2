@@ -3,7 +3,6 @@
 namespace yz\db;
 use yii\base\Exception;
 use yii\db\Connection;
-use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
 

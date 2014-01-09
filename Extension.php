@@ -1,6 +1,6 @@
 <?php
 
-namespace yz\admin;
+namespace yz;
 
 
 /**
