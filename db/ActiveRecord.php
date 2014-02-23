@@ -39,13 +39,11 @@ class ActiveRecord extends \yii\db\ActiveRecord
         }];
     }
 
-    /**
-     * @return \yz\db\ActiveQuery
-     */
-    public static function createQuery()
-    {
-        return new \yz\db\ActiveQuery(['modelClass' => get_called_class()]);
-    }
+	public static function createQuery($config = [])
+	{
+		$config['modelClass'] = get_called_class();
+		return new \yz\db\ActiveQuery($config);
+	}
 
 
     /**
