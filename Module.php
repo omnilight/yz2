@@ -27,8 +27,6 @@ class Module extends \yii\base\Module
 	public function __construct($id, $parent = null, $config = [])
 	{
 		if (isset(\Yii::$app->params['application-type'])) {
-			$this->setControllerPath($this->getBasePath() . DIRECTORY_SEPARATOR . 'controllers'
-				. DIRECTORY_SEPARATOR . \Yii::$app->params['application-type']);
 			$this->setViewPath($this->getBasePath() . DIRECTORY_SEPARATOR . 'views'
 				. DIRECTORY_SEPARATOR . \Yii::$app->params['application-type']);
 		}
@@ -205,6 +203,4 @@ class Module extends \yii\base\Module
 
 		parent::init();
 	}
-
-
 }
