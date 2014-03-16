@@ -24,16 +24,6 @@ class Module extends \yii\base\Module
 	 */
 	public $adminMenuOrder = 0;
 
-	public function __construct($id, $parent = null, $config = [])
-	{
-		if (isset(\Yii::$app->params['application-type'])) {
-			$this->setViewPath($this->getBasePath() . DIRECTORY_SEPARATOR . 'views'
-				. DIRECTORY_SEPARATOR . \Yii::$app->params['application-type']);
-		}
-
-		parent::__construct($id, $parent, $config);
-	}
-
 	/**
 	 * Version of the module
 	 * @return string
@@ -186,21 +176,5 @@ class Module extends \yii\base\Module
 		$list = array_merge($moduleAuthItem, $list);
 
 		return $list;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function init()
-	{
-		if ($this->controllerNamespace === null && isset(\Yii::$app->params['application-type'])) {
-			$class = get_class($this);
-			if (($pos = strrpos($class, '\\')) !== false) {
-				$this->controllerNamespace = substr($class, 0, $pos) . '\\controllers\\'
-					. \Yii::$app->params['application-type'];
-			}
-		}
-
-		parent::init();
 	}
 }
