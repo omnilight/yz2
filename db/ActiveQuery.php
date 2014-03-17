@@ -1,8 +1,8 @@
 <?php
 
 namespace yz\db;
+
 use yii\base\Exception;
-use yii\db\Connection;
 use yii\helpers\ArrayHelper;
 
 
@@ -13,6 +13,7 @@ use yii\helpers\ArrayHelper;
 class ActiveQuery extends \yii\db\ActiveQuery
 {
     public $asMap = false;
+
     /**
      * Set output format as map
      * @param bool $value
@@ -26,7 +27,7 @@ class ActiveQuery extends \yii\db\ActiveQuery
 
     public function one($db = null)
     {
-        if($this->asMap) {
+        if ($this->asMap) {
             throw new Exception('You are trying to call "one" method for ActiveQuery that is configured to return map');
         }
 
@@ -35,9 +36,9 @@ class ActiveQuery extends \yii\db\ActiveQuery
 
     public function all($db = null)
     {
-        if($this->asMap) {
+        if ($this->asMap) {
             $attributes = call_user_func($this->modelClass, 'mapAttributes');
-            return ArrayHelper::map(parent::all($db), $attributes[0], $attributes[1], isset($attributes[2])?$attributes[2]:null);
+            return ArrayHelper::map(parent::all($db), $attributes[0], $attributes[1], isset($attributes[2]) ? $attributes[2] : null);
         }
         return parent::all($db);
     }

@@ -28,7 +28,7 @@ class UrlManager extends \yii\web\UrlManager
      */
     protected function compileRules()
     {
-        if($this->loadRulesFromModules) {
+        if ($this->loadRulesFromModules) {
             Yii::trace("Fetching URL rules from modules", __CLASS__);
 
             $modules = \Yii::$app->getModules();
@@ -38,13 +38,13 @@ class UrlManager extends \yii\web\UrlManager
                 'append' => [],
             ];
 
-            foreach($modules as $id => $moduleConfig) {
+            foreach ($modules as $id => $moduleConfig) {
                 $module = \Yii::$app->getModule($id);
-                if($module instanceof \yz\Module) {
+                if ($module instanceof \yz\Module) {
                     $moduleRoutes = $module->getRoutes();
-                    if(isset($moduleRoutes['prepend']))
+                    if (isset($moduleRoutes['prepend']))
                         $routes['prepend'] = array_merge($routes['prepend'], $moduleRoutes['prepend']);
-                    if(isset($moduleRoutes['append']))
+                    if (isset($moduleRoutes['append']))
                         $routes['append'] = array_merge($routes['append'], $moduleRoutes['append']);
                 }
             }

@@ -33,17 +33,17 @@ class ActiveRecord extends \yii\db\ActiveRecord
      */
     public static function mapAttributes()
     {
-        return [static::primaryKey(), function($model, $default = null) {
+        return [static::primaryKey(), function ($model, $default = null) {
             /** @var ActiveRecord $model */
             return (string)$model;
         }];
     }
 
-	public static function createQuery($config = [])
-	{
-		$config['modelClass'] = get_called_class();
-		return new \yz\db\ActiveQuery($config);
-	}
+    public static function createQuery($config = [])
+    {
+        $config['modelClass'] = get_called_class();
+        return new \yz\db\ActiveQuery($config);
+    }
 
 
     /**
@@ -72,10 +72,10 @@ class ActiveRecord extends \yii\db\ActiveRecord
     public function getAttributeValues($attribute)
     {
         $values = $this->attributeValues();
-        if(isset($values[$attribute])) {
+        if (isset($values[$attribute])) {
             return $values[$attribute];
         } else {
-            throw new Exception('Trying to get values for unknown attribute: '.$attribute);
+            throw new Exception('Trying to get values for unknown attribute: ' . $attribute);
         }
     }
 } 

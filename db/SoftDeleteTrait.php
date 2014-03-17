@@ -14,21 +14,21 @@ namespace yz\db;
  */
 trait SoftDeleteTrait
 {
-	public static function softDeleteAttributes()
-	{
-		return [
-			0 => ['is_deleted' => 0],
-			1 => ['is_deleted' => 1],
-		];
-	}
+    public static function softDeleteAttributes()
+    {
+        return [
+            0 => ['is_deleted' => 0],
+            1 => ['is_deleted' => 1],
+        ];
+    }
 
-	public function softDelete()
-	{
-		// TODO
-	}
+    public function softDelete()
+    {
+        // TODO
+    }
 
-	public function softDeleteAll($condition = '', $params = [])
-	{
-		return self::updateAll(self::softDeleteAttributes(), $condition, $params);
-	}
+    public function softDeleteAll($condition = '', $params = [])
+    {
+        return self::updateAll(self::softDeleteAttributes(), $condition, $params);
+    }
 } 

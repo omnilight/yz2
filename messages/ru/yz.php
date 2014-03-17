@@ -16,10 +16,10 @@
  *
  * NOTE: this file must be saved in UTF-8 encoding.
  */
-return array (
-  'Access to the action {module} / {action} / {controller}' => 'Доступ к действию {module} / {action} / {controller}',
-  'Access to the section {module} / {controller}' => 'Доступ к разделу {module} / {controller}',
-  'Access to the module {module}' => 'Доступ к модулю {module}',
-  'Yz Module' => 'Модуль системы Yz',
-  'Yz Team' => 'Комманда Yz',
+return array(
+    'Access to the action {module} / {action} / {controller}' => 'Доступ к действию {module} / {action} / {controller}',
+    'Access to the section {module} / {controller}' => 'Доступ к разделу {module} / {controller}',
+    'Access to the module {module}' => 'Доступ к модулю {module}',
+    'Yz Module' => 'Модуль системы Yz',
+    'Yz Team' => 'Комманда Yz',
 );
