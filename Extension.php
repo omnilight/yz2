@@ -8,9 +8,9 @@ namespace yz;
  */
 class Extension extends \yii\base\Extension
 {
-    public static function init()
+    public static function bootstrap()
     {
-        parent::init();
+        parent::bootstrap();
 
         \Yii::$app->i18n->translations['yz'] = [
             'class' => 'yii\i18n\PhpMessageSource',
