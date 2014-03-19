@@ -2,6 +2,7 @@
 
 namespace yz;
 
+use backend\base\Controller;
 use yii\base\InvalidConfigException;
 use yii\helpers\FileHelper;
 use yz\admin\components\AuthManager;
@@ -131,23 +132,24 @@ class Module extends \yii\base\Module
         $list = [];
 
         $moduleAuthItemName = $this->className();
-        $moduleDescription = \Yii::t('yz', 'Access to the module {module}', [
-            '{module}' => $this->getName(),
+        $moduleDescription = \Yii::t('yz', 'Access to the module "{module}"', [
+            'module' => $this->getName(),
         ]);
 
         $moduleAuthItem = [
             $moduleAuthItemName => [$moduleDescription, []],
         ];
 
-        foreach (FileHelper::findFiles($this->controllerPath, ['only' => 'Controller.php']) as $file) {
-            $relativePath = str_replace($this->controllerPath, '', $file);
-            $controllerClassName = ltrim($this->controllerNamespace . '\\' . $relativePath);
-            $controllerClassName = substr($controllerClassName, 0, -4); // Removing .php
-            if (is_subclass_of($controllerClassName, BackendController::className())) {
+        foreach (FileHelper::findFiles($this->controllerPath, ['only' => ['*Controller.php']]) as $file) {
+            $relativePath = basename($file);
+            $controllerBaseClassName = substr($relativePath, 0, -4); // Removing .php
+            $controllerName = substr($controllerBaseClassName, 0, -10); // Removing Controller
+            $controllerClassName = ltrim($this->controllerNamespace . '\\' . $controllerBaseClassName);
+            if (is_subclass_of($controllerClassName, Controller::className())) {
                 $controllerAuthItemName = $controllerClassName;
-                $controllerDescription = \Yii::t('yz', 'Access to the section {module} / {controller}', [
-                    '{controller}' => $controllerClassName,
-                    '{module}' => $this->getName(),
+                $controllerDescription = \Yii::t('yz', 'Access to the section "{module}/{controller}"', [
+                    'controller' => $controllerName,
+                    'module' => $this->getName(),
                 ]);
                 $controllerAuthItem = [
                     $controllerAuthItemName => [$controllerDescription, []],
@@ -157,13 +159,13 @@ class Module extends \yii\base\Module
                 $actionsAuthItems = [];
                 $ref = new \ReflectionClass($controllerClassName);
                 foreach ($ref->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
-                    if (preg_match('/^action(.+)$/', $method->getName(), $m)) {
+                    if (preg_match('/^action([A-Z].*)$/', $method->getName(), $m)) {
                         $action = $m[1];
                         $actionAuthItemName = AuthManager::getOperationName($controllerClassName, $action);
-                        $actionDescription = \Yii::t('yz', 'Access to the action {module} / {action} / {controller}', [
-                            '{action}' => $action,
-                            '{controller}' => $controllerClassName,
-                            '{module}' => $this->getName(),
+                        $actionDescription = \Yii::t('yz', 'Access to the action "{module}/{controller}/{action}"', [
+                            'action' => $action,
+                            'controller' => $controllerName,
+                            'module' => $this->getName(),
                         ]);
                         $actionsAuthItems[$actionAuthItemName] = [$actionDescription, []];
                         $controllerAuthItem[$actionAuthItemName][1][] = $actionsAuthItems;
