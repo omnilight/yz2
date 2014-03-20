@@ -5,6 +5,7 @@ namespace yz;
 use backend\base\Controller;
 use yii\base\InvalidConfigException;
 use yii\helpers\FileHelper;
+use yii\rbac\Item;
 use yz\admin\components\AuthManager;
 use yz\admin\components\BackendController;
 
@@ -122,7 +123,7 @@ class Module extends \yii\base\Module
      * List has the following form:
      * ~~~
      * [
-     *  'authItemName' => ['Description', ['children1', 'children2, ...]],
+     *  'authItemName' => ['Description', type, ['children1', 'children2, ...]],
      * ]
      * ~~~
      * @returns array
@@ -137,7 +138,7 @@ class Module extends \yii\base\Module
         ]);
 
         $moduleAuthItem = [
-            $moduleAuthItemName => [$moduleDescription, []],
+            $moduleAuthItemName => [$moduleDescription, Item::TYPE_TASK, []],
         ];
 
         foreach (FileHelper::findFiles($this->controllerPath, ['only' => ['*Controller.php']]) as $file) {
@@ -152,9 +153,9 @@ class Module extends \yii\base\Module
                     'module' => $this->getName(),
                 ]);
                 $controllerAuthItem = [
-                    $controllerAuthItemName => [$controllerDescription, []],
+                    $controllerAuthItemName => [$controllerDescription, Item::TYPE_TASK, []],
                 ];
-                $moduleAuthItem[$moduleAuthItemName][1][] = $controllerAuthItemName;
+                $moduleAuthItem[$moduleAuthItemName][2][] = $controllerAuthItemName;
 
                 $actionsAuthItems = [];
                 $ref = new \ReflectionClass($controllerClassName);
@@ -167,8 +168,8 @@ class Module extends \yii\base\Module
                             'controller' => $controllerName,
                             'module' => $this->getName(),
                         ]);
-                        $actionsAuthItems[$actionAuthItemName] = [$actionDescription, []];
-                        $controllerAuthItem[$actionAuthItemName][1][] = $actionsAuthItems;
+                        $actionsAuthItems[$actionAuthItemName] = [$actionDescription, Item::TYPE_TASK, []];
+                        $controllerAuthItem[$controllerAuthItemName][2][] = $actionAuthItemName;
                     }
                 }
                 $list = array_merge($list, $controllerAuthItem, $actionsAuthItems);
