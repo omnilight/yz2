@@ -18,6 +18,6 @@
         "psr-4": { "yz\\": "" }
     },
     "extra": {
-        "bootstrap": "yz\\Extension"
+        "bootstrap": "yz\\Bootstrap"
     }
 }
