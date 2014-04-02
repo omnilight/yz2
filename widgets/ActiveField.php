@@ -23,6 +23,11 @@ class ActiveField extends \yii\widgets\ActiveField
      */
     public $horizontal = [];
     /**
+     * Define sizes of elements for form in inline mode
+     * @var array
+     */
+    public $inline = [];
+    /**
      * Html to prepend field
      * @var string
      */
@@ -40,6 +45,12 @@ class ActiveField extends \yii\widgets\ActiveField
             'input' => 'col-sm-7',
             'offset' => 'col-sm-offset-2 col-sm-10',
         ], $this->horizontal);
+
+        $this->inline = array_merge([
+            'label' => 'sr-only',
+            'input' => 'col-sm-7',
+            'offset' => 'col-sm-offset-2 col-sm-10',
+        ], $this->inline);
 
         // Placeholder definition for inline forms
         if (!isset($this->inputOptions['placeholder']) && $this->form->type == ActiveForm::TYPE_INLINE) {
@@ -84,7 +95,7 @@ class ActiveField extends \yii\widgets\ActiveField
     {
         // Settings for inline forms
         if ($this->form->type == ActiveForm::TYPE_INLINE) {
-            Html::addCssClass($this->labelOptions, 'sr-only');
+            Html::addCssClass($this->labelOptions, $this->inline['label']);
         }
         // Settings for horizontal forms
         if ($this->form->type == ActiveForm::TYPE_HORIZONTAL) {
