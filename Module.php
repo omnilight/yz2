@@ -71,25 +71,6 @@ class Module extends \yii\base\Module
     }
 
     /**
-     * Returns the list of routes for current module. THis list should be in the following form
-     * ~~~
-     * [
-     *  'prepend' => [
-     *      // List of the routes to prepend
-     *  ],
-     *  'append' => [
-     *      // List of the routes to append
-     *  ],
-     * ]
-     * ~~~
-     * @returns array
-     */
-    public function getRoutes()
-    {
-        return [];
-    }
-
-    /**
      * Returns menu items for administration panel in the following form:
      * ~~~
      * [
