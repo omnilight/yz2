@@ -119,7 +119,7 @@ class Module extends \yii\base\Module
         ]);
 
         $moduleAuthItem = [
-            $moduleAuthItemName => [$moduleDescription, Item::TYPE_TASK, []],
+            $moduleAuthItemName => [$moduleDescription, Item::TYPE_PERMISSION, []],
         ];
 
         foreach (FileHelper::findFiles($this->controllerPath, ['only' => ['*Controller.php']]) as $file) {
@@ -134,7 +134,7 @@ class Module extends \yii\base\Module
                     'module' => $this->getName(),
                 ]);
                 $controllerAuthItem = [
-                    $controllerAuthItemName => [$controllerDescription, Item::TYPE_TASK, []],
+                    $controllerAuthItemName => [$controllerDescription, Item::TYPE_PERMISSION, []],
                 ];
                 $moduleAuthItem[$moduleAuthItemName][2][] = $controllerAuthItemName;
 
@@ -149,7 +149,7 @@ class Module extends \yii\base\Module
                             'controller' => $controllerName,
                             'module' => $this->getName(),
                         ]);
-                        $actionsAuthItems[$actionAuthItemName] = [$actionDescription, Item::TYPE_TASK, []];
+                        $actionsAuthItems[$actionAuthItemName] = [$actionDescription, Item::TYPE_PERMISSION, []];
                         $controllerAuthItem[$controllerAuthItemName][2][] = $actionAuthItemName;
                     }
                 }
