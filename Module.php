@@ -3,8 +3,10 @@
 namespace yz;
 
 use backend\base\Controller;
+use yii\base\Action;
 use yii\base\InvalidConfigException;
 use yii\helpers\FileHelper;
+use yii\helpers\Inflector;
 use yii\rbac\Item;
 use yz\admin\components\AuthManager;
 use yz\admin\components\BackendController;
@@ -138,21 +140,32 @@ class Module extends \yii\base\Module
                 ];
                 $moduleAuthItem[$moduleAuthItemName][2][] = $controllerAuthItemName;
 
-                $actionsAuthItems = [];
+                $controllerInstance = $this->createControllerByID(Inflector::camel2id($controllerName));
+                $actions = array_keys($controllerInstance->actions());
+
                 $ref = new \ReflectionClass($controllerClassName);
-                foreach ($ref->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
-                    if (preg_match('/^action([A-Z].*)$/', $method->getName(), $m)) {
+                $methods = $ref->getMethods(\ReflectionMethod::IS_PUBLIC);
+
+                $actionsAuthItems = [];
+                foreach (array_merge($actions, $methods) as $method) {
+                    if (is_string($method))
+                        $action = ucfirst($method);
+                    else {
+                        /** @var \ReflectionMethod $method */
+                        if (!preg_match('/^action([A-Z].*)$/', $method->getName(), $m))
+                            continue;
                         $action = $m[1];
-                        $actionAuthItemName = AuthManager::getOperationName($controllerClassName, $action);
-                        $actionDescription = \Yii::t('yz', 'Access to the action "{module}/{controller}/{action}"', [
-                            'action' => $action,
-                            'controller' => $controllerName,
-                            'module' => $this->getName(),
-                        ]);
-                        $actionsAuthItems[$actionAuthItemName] = [$actionDescription, Item::TYPE_PERMISSION, []];
-                        $controllerAuthItem[$controllerAuthItemName][2][] = $actionAuthItemName;
                     }
+                    $actionAuthItemName = AuthManager::getOperationName($controllerClassName, $action);
+                    $actionDescription = \Yii::t('yz', 'Access to the action "{module}/{controller}/{action}"', [
+                        'action' => $action,
+                        'controller' => $controllerName,
+                        'module' => $this->getName(),
+                    ]);
+                    $actionsAuthItems[$actionAuthItemName] = [$actionDescription, Item::TYPE_PERMISSION, []];
+                    $controllerAuthItem[$controllerAuthItemName][2][] = $actionAuthItemName;
                 }
+
                 $list = array_merge($list, $controllerAuthItem, $actionsAuthItems);
             }
         }
