@@ -9,7 +9,6 @@ use yii\helpers\FileHelper;
 use yii\helpers\Inflector;
 use yii\rbac\Item;
 use yz\admin\components\AuthManager;
-use yz\admin\components\BackendController;
 
 /**
  * Class Module implements basic class for all Yz modules
