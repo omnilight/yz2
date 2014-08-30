@@ -13,4 +13,9 @@ class Yz
     const FLASH_SUCCESS = '__flash-success';
     const FLASH_WARNING = '__flash-warning';
     const FLASH_ERROR = '__flash-error';
+
+    public static function errorFlash($error)
+    {
+        \Yii::$app->session->setFlash(self::FLASH_ERROR, \Yii::t('yz', 'Error: {error}', ['error' => $error]));
+    }
 }
