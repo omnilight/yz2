@@ -114,6 +114,9 @@ class Module extends \yii\base\Module
     {
         $list = [];
 
+        if (is_dir($this->controllerPath) == false)
+            return $list;
+
         $moduleAuthItemName = $this->className();
         $moduleDescription = \Yii::t('yz', 'Access to the module "{module}"', [
             'module' => $this->getName(),
