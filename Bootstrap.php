@@ -22,5 +22,7 @@ class Bootstrap implements BootstrapInterface
             'basePath' => '@yz/messages',
             'sourceLanguage' => 'en-US',
         ];
+
+        \Yii::$app->params['yii.migrations'][] = '@yz/migrations';
     }
 }
