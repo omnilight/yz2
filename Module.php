@@ -117,7 +117,7 @@ class Module extends \yii\base\Module
         if (is_dir($this->controllerPath) == false)
             return $list;
 
-        $moduleAuthItemName = $this->className();
+        $moduleAuthItemName = AuthManager::authItemName($this->className());
         $moduleDescription = \Yii::t('yz', 'Access to the module "{module}"', [
             'module' => $this->getName(),
         ]);
@@ -127,12 +127,12 @@ class Module extends \yii\base\Module
         ];
 
         foreach (FileHelper::findFiles($this->controllerPath, ['only' => ['*Controller.php']]) as $file) {
-            $relativePath = basename($file);
+            $relativePath = ltrim(substr($file, strlen($this->controllerPath)), '\\/');
             $controllerBaseClassName = substr($relativePath, 0, -4); // Removing .php
             $controllerName = substr($controllerBaseClassName, 0, -10); // Removing Controller
-            $controllerClassName = ltrim($this->controllerNamespace . '\\' . $controllerBaseClassName);
+            $controllerClassName = ltrim($this->controllerNamespace . '\\' . str_replace('/', '\\', $controllerBaseClassName));
             if (is_subclass_of($controllerClassName, Controller::className())) {
-                $controllerAuthItemName = $controllerClassName;
+                $controllerAuthItemName = AuthManager::authItemName($controllerClassName);
                 $controllerDescription = \Yii::t('yz', 'Access to the section "{module}/{controller}"', [
                     'controller' => $controllerName,
                     'module' => $this->getName(),
