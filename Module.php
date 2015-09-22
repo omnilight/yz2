@@ -8,7 +8,7 @@ use yii\base\InvalidConfigException;
 use yii\helpers\FileHelper;
 use yii\helpers\Inflector;
 use yii\rbac\Item;
-use yz\admin\components\AuthManager;
+use yz\admin\helpers\Rbac;
 
 /**
  * Class Module implements basic class for all Yz modules
@@ -117,7 +117,7 @@ class Module extends \yii\base\Module
         if (is_dir($this->controllerPath) == false)
             return $list;
 
-        $moduleAuthItemName = AuthManager::authItemName($this->className());
+        $moduleAuthItemName = Rbac::authItemName($this->className());
         $moduleDescription = \Yii::t('yz', 'Access to the module "{module}"', [
             'module' => $this->getName(),
         ]);
@@ -132,7 +132,7 @@ class Module extends \yii\base\Module
             $controllerName = substr($controllerBaseClassName, 0, -10); // Removing Controller
             $controllerClassName = ltrim($this->controllerNamespace . '\\' . str_replace('/', '\\', $controllerBaseClassName));
             if (is_subclass_of($controllerClassName, Controller::className())) {
-                $controllerAuthItemName = AuthManager::authItemName($controllerClassName);
+                $controllerAuthItemName = Rbac::authItemName($controllerClassName);
                 $controllerDescription = \Yii::t('yz', 'Access to the section "{module}/{controller}"', [
                     'controller' => $controllerName,
                     'module' => $this->getName(),
@@ -158,7 +158,7 @@ class Module extends \yii\base\Module
                             continue;
                         $action = $m[1];
                     }
-                    $actionAuthItemName = AuthManager::getOperationName($controllerClassName, $action);
+                    $actionAuthItemName = Rbac::getOperationName($controllerClassName, $action);
                     $actionDescription = \Yii::t('yz', 'Access to the action "{module}/{controller}/{action}"', [
                         'action' => $action,
                         'controller' => $controllerName,
