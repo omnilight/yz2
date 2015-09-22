@@ -158,7 +158,7 @@ class Module extends \yii\base\Module
                             continue;
                         $action = $m[1];
                     }
-                    $actionAuthItemName = Rbac::getOperationName($controllerClassName, $action);
+                    $actionAuthItemName = Rbac::operationName($controllerClassName, $action);
                     $actionDescription = \Yii::t('yz', 'Access to the action "{module}/{controller}/{action}"', [
                         'action' => $action,
                         'controller' => $controllerName,
