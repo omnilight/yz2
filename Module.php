@@ -8,6 +8,7 @@ use yii\base\InvalidConfigException;
 use yii\helpers\FileHelper;
 use yii\helpers\Inflector;
 use yii\rbac\Item;
+use yz\admin\contracts\AccessControlInterface;
 use yz\admin\helpers\Rbac;
 
 /**
@@ -131,7 +132,12 @@ class Module extends \yii\base\Module
             $controllerBaseClassName = substr($relativePath, 0, -4); // Removing .php
             $controllerName = substr($controllerBaseClassName, 0, -10); // Removing Controller
             $controllerClassName = ltrim($this->controllerNamespace . '\\' . str_replace('/', '\\', $controllerBaseClassName));
-            if (is_subclass_of($controllerClassName, Controller::className())) {
+            $ref = new \ReflectionClass($controllerClassName);
+            if (
+                $ref->isSubclassOf(Controller::class) /** @deprecated */
+                ||
+                ($ref->implementsInterface(AccessControlInterface::class))
+            ) {
                 $controllerAuthItemName = Rbac::authItemName($controllerClassName);
                 $controllerDescription = \Yii::t('yz', 'Access to the section "{module}/{controller}"', [
                     'controller' => $controllerName,
@@ -145,7 +151,7 @@ class Module extends \yii\base\Module
                 $controllerInstance = $this->createControllerByID(Inflector::camel2id($controllerName));
                 $actions = array_keys($controllerInstance->actions());
 
-                $ref = new \ReflectionClass($controllerClassName);
+
                 $methods = $ref->getMethods(\ReflectionMethod::IS_PUBLIC);
 
                 $actionsAuthItems = [];
