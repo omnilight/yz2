@@ -150,7 +150,6 @@ class Module extends \yii\base\Module
                 $moduleAuthItem[$moduleAuthItemName][2][] = $controllerAuthItemName;
 
                 $controllerInstance = $this->createControllerByID($controllerId);
-                if ($controllerInstance === null) { die();}
                 $actions = array_keys($controllerInstance->actions());
 
 
