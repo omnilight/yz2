@@ -138,6 +138,7 @@ class Module extends \yii\base\Module
                 ||
                 ($ref->implementsInterface(AccessControlInterface::class))
             ) {
+                $controllerId = implode('/', array_map([Inflector::class, 'camel2id'], explode('/', $controllerName)));
                 $controllerAuthItemName = Rbac::authItemName($controllerClassName);
                 $controllerDescription = \Yii::t('yz', 'Access to the section "{module}/{controller}"', [
                     'controller' => $controllerName,
@@ -148,7 +149,8 @@ class Module extends \yii\base\Module
                 ];
                 $moduleAuthItem[$moduleAuthItemName][2][] = $controllerAuthItemName;
 
-                $controllerInstance = $this->createControllerByID(Inflector::camel2id($controllerName));
+                $controllerInstance = $this->createControllerByID($controllerId);
+                if ($controllerInstance === null) { die();}
                 $actions = array_keys($controllerInstance->actions());
 
 
